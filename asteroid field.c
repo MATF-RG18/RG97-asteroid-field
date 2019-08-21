@@ -6,7 +6,7 @@
 #define TIMER_INTERVAL (20)
 #define PI (3.1415926535)
 #define EPSILON (0.01)
-
+#define BR_ASTEROIDA (12)
 
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
@@ -14,6 +14,14 @@ static void on_display(void);
 static void on_timer(int);
 void set_normal_and_vertex_cylinder(float u, float v);
 void spaceShip(float x,float z);
+void asteroid (float x, float y,float z);
+float asteroidX[BR_ASTEROIDA]={15,20,25,30,
+							   30,35,35,40,
+							   45,50,50,55};
+float asteroidZ[BR_ASTEROIDA]={2,-2,0,-2,
+							   2,-2,0,0,
+							   2,0,2,-2};
+void mapa();
 int animation_ongoing = 0;
 float animation_parameter=0;
 float zoom = 5;
@@ -32,7 +40,7 @@ int main(int argc, char** argv)
 	glutInitWindowSize(500,500);
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("asteroid field");
-
+	printf("skor:\n");
 	
 	glutKeyboardFunc(on_keyboard);
 	glutReshapeFunc(on_reshape);
@@ -96,11 +104,15 @@ static void on_keyboard(unsigned char key, int x, int y)
         	break;
         case 'a':
         case 'A':
-        	levodesno-=0.1;
+        	if(levodesno==-2)
+        		break;
+        	levodesno-=2;
         	break;
         case 'd':
         case 'D':
-        	levodesno+=0.1;
+        	if(levodesno==2)
+        		break;
+        	levodesno+=2;
         	break;
 
       
@@ -113,22 +125,50 @@ static void on_display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glColor3f(0,0,1);
+//1
+    glMatrixMode(GL_PROJECTION );
+	glLoadIdentity();
+	glOrtho(0,1,0,1,-1,1);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glDepthMask(GL_FALSE);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+//crtanje pozadine
+	mapa();
+
+
+//2
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, 1, 0.1, 1000.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+
+
+
+
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
-            -1*zoom*cos(rotacija), 0.5*zoom+goredole*zoom, zoom*sin(rotacija),
-            0, 0, 0,
+            -0.5+(-0.5)*zoom*cos(rotacija), 5+ 0.5*zoom+goredole*zoom, zoom*sin(rotacija),
+            3, 0, 0,
             0, 1, 0
         );
-
-    glColor3f(1, 0, 0);
-        glPushMatrix();
-        glTranslatef(0.5, 0.5, 0.5);
-        glutWireCube(1);
-        glPopMatrix();
-    
+   //svemirski brod 
         spaceShip(-2,levodesno);
+
+   //polje asteroida
+        int i;
+        for(i=0;i< BR_ASTEROIDA;i++){
+        	asteroid(asteroidX[i],0,asteroidZ[i]);
+        }
+	
 	glBegin(GL_LINES);
 
 		glColor3f (0,0,1); //blue x
@@ -166,6 +206,12 @@ void set_normal_and_vertex_cylinder(float u, float v)
     glVertex3f(u,cos(v),sin(v));
 }
 
+//TODO
+//mapa
+void mapa(){
+
+}
+
 
 //--------------------------------crtanje brodica-------------------------------------------------------
 void spaceShip(float x,float z){
@@ -180,7 +226,7 @@ void spaceShip(float x,float z){
     glPushMatrix();
     glTranslatef(0,0,z);
    	glScalef(1,0.5,0.5);
-    //glColor3f(0.5,0.5,0.5);
+
     for (u = 0; u < 1.5; u += PI / 20) {
         glBegin(GL_TRIANGLE_STRIP);
         for (v = 0; v <= PI*2 + EPSILON; v += PI / 20) {
@@ -236,7 +282,7 @@ void spaceShip(float x,float z){
 
 	glPopMatrix();
 
-              //nadogradja da izgleda kao da se nesto izbacuje iz auspuha
+   //narandzasta vatrica iz auspuha
 	GLfloat Material_auspuh1[] = { 0.2, 0.2, 0.2, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_auspuh1);
 	glPushMatrix();
@@ -273,7 +319,7 @@ void spaceShip(float x,float z){
 	glutSolidSphere(0.25,20,20);
 	
 	glPopMatrix();
-
+	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHTING);
 
 //krilca
@@ -304,21 +350,46 @@ void spaceShip(float x,float z){
 	glPopMatrix();
 
 }
- static void on_timer(int id)
-     {
-         if(id != TIMER_ID)
-          return;
-         /*postavljamo tajmer dok je manje od 90 stepeni animacija se pokrece i povecavaju se
-          ili smanjuju odredjeni parametri*/
+// asteroid
+void asteroid (float x, float y,float z){
+
+	GLfloat Material_asteroid[] = { 0.5, 0.5, 0.5, 1.0 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_asteroid);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
+	glPushMatrix();
+	
+	glTranslatef(x,y,z);
+	glutSolidSphere(0.75,20,20);
+	
+	glPopMatrix();
+	glDisable(GL_LIGHTING);
+
+
+
+}
+ static void on_timer(int id){
+         
+    if(id != TIMER_ID)
+        return;
+
+    //TODO poboljsanje ispisivanja skora
+    printf("%d\b\b\b\b\b\b",(int) animation_parameter);
+    animation_parameter += 0.5;
+         
+    int i;
+    for(i=0;i<12;i++){
+        asteroidX[i]-=0.1;//brzina
         
-           animation_parameter += 0.5;
-      
+        if (asteroidX[i] < -4.9)
+        		asteroidX[i]+=40;
+    }
       
           
          
-         if (animation_ongoing) {
-             glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
-         }
+    if (animation_ongoing) {
+        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
       
         glutPostRedisplay();
-     }
+}

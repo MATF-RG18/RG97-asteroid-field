@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <math.h>
+
 #define TIMER_ID (0)
 #define TIMER_INTERVAL (20)
 #define PI (3.1415926535)
@@ -12,22 +13,33 @@ static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_timer(int);
+
 void set_normal_and_vertex_cylinder(float u, float v);
 void spaceShip(float x,float z);
 void asteroid (float x, float y,float z);
+void mapa();
+void kraj();
+
+
+float asteroidXstart[BR_ASTEROIDA]={15,20,25,30,
+							   30,35,35,40,
+							   45,50,50,55};
+float asteroidZstart[BR_ASTEROIDA]={2,-2,0,-2,
+							   2,-2,0,0,
+							   2,0,2,-2};
+
 float asteroidX[BR_ASTEROIDA]={15,20,25,30,
 							   30,35,35,40,
 							   45,50,50,55};
 float asteroidZ[BR_ASTEROIDA]={2,-2,0,-2,
 							   2,-2,0,0,
 							   2,0,2,-2};
-void mapa();
+
 int animation_ongoing = 0;
 float animation_parameter=0;
-float zoom = 5;
-float rotacija =0;
 float levodesno =0;
-float goredole=0;
+int kraj_parametar = 0;
+int skor = 0;
 
 int main(int argc, char** argv)
 {
@@ -40,8 +52,9 @@ int main(int argc, char** argv)
 	glutInitWindowSize(500,500);
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("asteroid field");
-	printf("skor:\n");
-	
+
+	printf("press G to GO\n");
+
 	glutKeyboardFunc(on_keyboard);
 	glutReshapeFunc(on_reshape);
 	glutDisplayFunc(on_display);
@@ -74,34 +87,10 @@ static void on_keyboard(unsigned char key, int x, int y)
           glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
         }
              break;
-         case 's':
-         case 'S':
+         case 'p':
+         case 'P':
            animation_ongoing=0;
            break;
-        case 'j':
-        case 'J':
-        	zoom+=0.1;
-        	break;
-        case 'k':
-        case 'K':
-        	zoom-=0.1;
-        	break;
-        case 'u':
-        case 'U':
-        	rotacija-=0.03;
-        	break;
-        case 'i':
-        case 'I':
-        	rotacija+=0.03;
-        	break;
-        case 't':
-        case 'T':
-        	goredole+=0.1;
-        	break;
-        case 'y':
-        case 'Y':
-        	goredole-=0.1;
-        	break;
         case 'a':
         case 'A':
         	if(levodesno==-2)
@@ -114,8 +103,6 @@ static void on_keyboard(unsigned char key, int x, int y)
         		break;
         	levodesno+=2;
         	break;
-
-      
     }
 }
 
@@ -134,6 +121,8 @@ static void on_display(void)
 	glDepthMask(GL_FALSE);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+
 //crtanje pozadine
 	mapa();
 
@@ -156,7 +145,7 @@ static void on_display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
-            -0.5+(-0.5)*zoom*cos(rotacija), 5+ 0.5*zoom+goredole*zoom, zoom*sin(rotacija),
+            -0.5, 9, 0,
             3, 0, 0,
             0, 1, 0
         );
@@ -168,22 +157,10 @@ static void on_display(void)
         for(i=0;i< BR_ASTEROIDA;i++){
         	asteroid(asteroidX[i],0,asteroidZ[i]);
         }
-	
-	glBegin(GL_LINES);
 
-		glColor3f (0,0,1); //blue x
-		glVertex3f(0,0,0);
-		glVertex3f(50,0,0);
-
-		glColor3f (0,1,0); //green y
-		glVertex3f(0,0,0);
-		glVertex3f(0,50,0);
-
-		glColor3f (1,0,0); //red z
-		glVertex3f(0,0,0);
-		glVertex3f(0,0,50);
-
-	glEnd();
+        if(abs(kraj_parametar) == 1){
+        	kraj();
+        }
 
 
 	glutSwapBuffers();
@@ -213,7 +190,7 @@ void mapa(){
 }
 
 
-//--------------------------------crtanje brodica-------------------------------------------------------
+//--------------------------------crtanje broda-------------------------------------------------------
 void spaceShip(float x,float z){
 		GLfloat Material[] = { 0.7, 0.7, 0.7, 1.0 };
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, Material);
@@ -222,7 +199,7 @@ void spaceShip(float x,float z){
 		glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
 
     float u, v;
-// telo - valjak
+// telo
     glPushMatrix();
     glTranslatef(0,0,z);
    	glScalef(1,0.5,0.5);
@@ -236,7 +213,7 @@ void spaceShip(float x,float z){
         glEnd();
     }
     glPopMatrix();
-//kupa-vrh
+//vrh
     GLfloat Material_vrh[] = { 0.7, 0, 0, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_vrh);
     glPushMatrix();
@@ -256,7 +233,7 @@ void spaceShip(float x,float z){
 
 	glPopMatrix();
 
-//kupa-auspuh
+//auspuh
 	GLfloat Material_auspuh[] = { 0.7, 0.2, 0, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_auspuh);
 	glPushMatrix();
@@ -282,7 +259,7 @@ void spaceShip(float x,float z){
 
 	glPopMatrix();
 
-   //narandzasta vatrica iz auspuha
+  //narandzasta vatra iz auspuha
 	GLfloat Material_auspuh1[] = { 0.2, 0.2, 0.2, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_auspuh1);
 	glPushMatrix();
@@ -368,13 +345,32 @@ void asteroid (float x, float y,float z){
 
 
 }
+void kraj (){
+
+    GLfloat Material_kraj[] = { 0.7, 0, 0, 1.0 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_kraj);
+	glPushMatrix();
+	
+	
+    glColor3f(1, 0, 0);
+    glBegin(GL_TRIANGLE_FAN);
+        glVertex3f(-2, 7, -2);
+        glVertex3f(-2, 7, 2);
+        glVertex3f(2, 7, 2);
+        glVertex3f(2, 7, -2);
+    glEnd();
+    glPopMatrix();
+
+    kraj_parametar=(-1);
+	
+}
+
+
  static void on_timer(int id){
          
     if(id != TIMER_ID)
         return;
 
-    //TODO poboljsanje ispisivanja skora
-    printf("%d\b\b\b\b\b\b",(int) animation_parameter);
     animation_parameter += 0.5;
          
     int i;
@@ -383,6 +379,16 @@ void asteroid (float x, float y,float z){
         
         if (asteroidX[i] < -4.9)
         		asteroidX[i]+=40;
+        if(kraj_parametar == (-1)){
+			printf("skor:\n%d\n",skor);
+			int j,k;
+			for (j=0;j<100000000;j++){k=sqrt(j);}//pauza
+			exit(EXIT_SUCCESS); 
+		}
+        if (asteroidX[i]< 3.3 && asteroidX[i]>0 && asteroidZ[i]==levodesno){
+        	skor =(int) animation_parameter;
+        	kraj_parametar=1;
+        }
     }
       
           

@@ -12,10 +12,11 @@ void on_keyboard(unsigned char key, int x, int y)
 {
 	switch(key)
 	{
-		case 27:
+		case 27: //escape
 			exit(EXIT_SUCCESS);
 			break;
-		 case 'g':
+
+		 case 'g'://go
          case 'G':
         if(!animation_ongoing){
       
@@ -23,21 +24,24 @@ void on_keyboard(unsigned char key, int x, int y)
           glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
         }
              break;
-         case 'p':
+         case 'p'://pause
          case 'P':
            animation_ongoing=0;
            break;
-        case 'a':
+
+        case 'a'://left
         case 'A':
         	if(levodesno==-2)
         		break;
         	levodesno-=2;
         	break;
-        case 'd':
+
+        case 'd'://right
         case 'D':
         	if(levodesno==2)
         		break;
         	levodesno+=2;
         	break;
+
     }
 }

@@ -15,7 +15,7 @@ void set_normal_and_vertex_cylinder(float u, float v)
     glVertex3f(u,cos(v),sin(v));
 }
 
-//svemirski brod
+//-----------svemirski brod-----------
 
 void spaceShip(float x,float z){
 		GLfloat Material[] = { 0.7, 0.7, 0.7, 1.0 };
@@ -25,8 +25,8 @@ void spaceShip(float x,float z){
 		glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
 
     float u, v;
-// telo
 
+// telo
     glPushMatrix();
     glTranslatef(0,0,z);
    	glScalef(1,0.5,0.5);
@@ -40,8 +40,8 @@ void spaceShip(float x,float z){
         glEnd();
     }
     glPopMatrix();
-//vrh
 
+//vrh
     GLfloat Material_vrh[] = { 0.7, 0, 0, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_vrh);
     glPushMatrix();
@@ -51,8 +51,8 @@ void spaceShip(float x,float z){
 	glutSolidCone(0.5,1,40,40);
 
 	glPopMatrix();
-// dno
 
+// dno
 	GLfloat Material_dno[] = { 0.2, 0.2, 0.2, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_dno);
 	glPushMatrix();
@@ -63,7 +63,6 @@ void spaceShip(float x,float z){
 	glPopMatrix();
 
 //auspuh
-
 	GLfloat Material_auspuh[] = { 0.7, 0.2, 0, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_auspuh);
 	glPushMatrix();
@@ -89,8 +88,7 @@ void spaceShip(float x,float z){
 
 	glPopMatrix();
 
-  //narandzasta vatra iz auspuha
-
+//narandzasta vatra iz auspuha
 	GLfloat Material_auspuh1[] = { 0.2, 0.2, 0.2, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_auspuh1);
 	glPushMatrix();
@@ -116,8 +114,7 @@ void spaceShip(float x,float z){
 
 	glPopMatrix();
 
-//kabina
-	
+//kabina	
 	GLfloat Material_kabina[] = { 0.5, 0.5, 1, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_kabina);
 
@@ -159,7 +156,7 @@ void spaceShip(float x,float z){
 
 }
 
-// asteroid
+//-----------asteroid-----------
 void asteroid (float x, float y,float z){
 
 	GLfloat Material_asteroid[] = { 0.5, 0.5, 0.5, 1.0 };
@@ -176,7 +173,55 @@ void asteroid (float x, float y,float z){
 
 }
 
+//-----------gorivo-----------
+void bure(float x, float y,float z){
+	
+	y+=1;
+
+	glEnable(GL_CLIP_PLANE0);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+      
+    glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
+
+    GLfloat Materialbure[] = { 0.9, 0.2, 0.1, 1.0 }; 
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, Materialbure);
+
+    glPushMatrix();
+    glClipPlane(GL_CLIP_PLANE0, clip);
+    glTranslatef(x,y,z);
+    glRotatef(90,1,0,0);
+    glutSolidCone(0.7,300,20,20);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(x,y,z);
+    glRotatef(90,1,0,0);
+    glutSolidTorus(0.1,0.71,20,20);
+    glPopMatrix();
+
+    y--;
+    glPushMatrix();
+    glTranslatef(x,y,z);
+    glRotatef(90,1,0,0);
+    glutSolidTorus(0.1,0.71,20,20);
+    glPopMatrix();
+
+    y--;
+    glPushMatrix();
+    glTranslatef(x,y,z);
+    glRotatef(90,1,0,0);
+    glutSolidTorus(0.1,0.71,20,20);
+    glPopMatrix();
+
+    glDisable(GL_CLIP_PLANE0);
+    glDisable(GL_LIGHTING);
+}
+
+//-----------crveni ekran da oznaci kraj-----------
 void kraj (){
+int i;
+	for (i = 0; sqrt(i) < 10000; i++);
 
     GLfloat Material_kraj[] = { 0.7, 0, 0, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_kraj);
@@ -185,15 +230,14 @@ void kraj (){
 	
     glColor3f(1, 0, 0);
     glBegin(GL_TRIANGLE_FAN);
-        glVertex3f(-2, 7, -2);
-        glVertex3f(-2, 7, 2);
-        glVertex3f(2, 7, 2);
-        glVertex3f(2, 7, -2);
+        glVertex3f(-5, 7, -5);
+        glVertex3f(-5, 7, 5);
+        glVertex3f(5, 7, 5);
+        glVertex3f(5, 7, -5);
     glEnd();
     glPopMatrix();
+
 
     kraj_parametar=(-1);
 	
 }
-
-//void mapa(){}

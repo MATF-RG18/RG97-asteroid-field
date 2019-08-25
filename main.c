@@ -12,13 +12,7 @@
 #include "object.h"
 
 
-float asteroidXstart[BR_ASTEROIDA]={15,20,25,30,
-							   30,35,35,40,
-							   45,50,50,55};
-float asteroidZstart[BR_ASTEROIDA]={2,-2,0,-2,
-							   2,-2,0,0,
-							   2,0,2,-2};
-
+//koordinate asteroida
 float asteroidX[BR_ASTEROIDA]={15,20,25,30,
 							   30,35,35,40,
 							   45,50,50,55};
@@ -26,10 +20,21 @@ float asteroidZ[BR_ASTEROIDA]={2,-2,0,-2,
 							   2,-2,0,0,
 							   2,0,2,-2};
 
+//koordinate bureta
+float bureX=57.5;
+float bureZ=2;
+
+//
 int animation_ongoing = 0;
 float animation_parameter=0;
+
+//polozaj svemirskog broda
 int levodesno =0;
+
+//
 int kraj_parametar = 0;
+
+//rezultat
 int skor = 0;
 
 int main(int argc, char** argv)
@@ -44,7 +49,11 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(100,100);
 	glutCreateWindow("asteroid field");
 
-	printf("press G to GO\n");
+	printf("G -> GO\n"\
+			"P -> PAUSE\n"\
+			"A -> LEFT\n"\
+			"D -> RIGHT\n"\
+			"Esc -> ESCAPE\n\n");
 
 	glutKeyboardFunc(on_keyboard);
 	glutReshapeFunc(on_reshape);

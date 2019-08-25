@@ -15,6 +15,10 @@ extern int kraj_parametar;
 extern int skor;
 extern int levodesno;
 extern int animation_ongoing;
+extern float bureX;
+extern float bureZ;
+
+time_t t;
 
 void on_timer(int id);
 

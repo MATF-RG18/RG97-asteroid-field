@@ -7,4 +7,5 @@
 #define EPSILON (0.01)
 #define BR_ASTEROIDA (12)
 
+
 #endif

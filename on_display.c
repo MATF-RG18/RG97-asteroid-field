@@ -23,8 +23,7 @@
 	glLoadIdentity();
 
 
-//crtanje pozadine
-	//mapa();
+
 
 
 
@@ -45,14 +44,18 @@
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
-            -0.5, 9, 0,
+           -2, 10, sin(animation_parameter/50),
             3, 0, 0,
             0, 1, 0
         );
-   //svemirski brod 
+
+    //svemirski brod 
         spaceShip(-2,levodesno);
 
-   //polje asteroida
+    //crtanje bureta
+        bure(bureX,0,bureZ);
+
+    //polje asteroida
         int i;
         for(i=0;i< BR_ASTEROIDA;i++){
         	asteroid(asteroidX[i],0,asteroidZ[i]);

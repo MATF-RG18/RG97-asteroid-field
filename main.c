@@ -29,7 +29,10 @@ int animation_ongoing = 0;
 float animation_parameter=0;
 
 //polozaj svemirskog broda
-int levodesno =0;
+float levodesno =0;
+int signal =0;
+int stanje =0;
+//
 
 //
 int kraj_parametar = 0;

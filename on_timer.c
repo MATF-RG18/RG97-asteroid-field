@@ -53,6 +53,43 @@ void on_timer(int id){
         }
     }
     
+    //kretanje broda
+    if(signal==10){
+    	if(levodesno>0){
+    		levodesno=0;
+    		stanje=0;
+    		signal =0;
+    	}else{
+    		levodesno+=brzina*2;
+
+    	}
+    }else if(signal ==-10){
+    	if(levodesno<0){
+    		levodesno=0;
+    		stanje=0;
+    		signal =0;
+    	}else{
+    		levodesno-=brzina*2;
+    	}
+    }else if(signal==1){
+    	if(levodesno>2){
+    		levodesno=2;
+    		stanje=2;
+    		signal =0;
+    	}else{
+    		levodesno+=brzina*2;
+    	}
+    }else if(signal==-1){
+
+    	if (levodesno<-2){
+    		levodesno=-2;
+    		stanje=-2;
+    		signal =0;
+    	}else{
+    		levodesno-=brzina*2;
+    	}
+    }
+    
     //kretane bureta sa kerozinom
     bureX-=brzina;
 

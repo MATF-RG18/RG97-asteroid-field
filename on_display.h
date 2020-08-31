@@ -10,7 +10,7 @@
 
 extern float brzina;
 extern float animation_parameter;
-extern int levodesno;
+extern float levodesno;
 extern float asteroidX[];
 extern float asteroidZ[];
 extern int kraj_parametar;

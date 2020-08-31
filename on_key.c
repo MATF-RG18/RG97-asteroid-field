@@ -31,17 +31,23 @@ void on_keyboard(unsigned char key, int x, int y)
 
         case 'a'://left
         case 'A':
-        	if(levodesno==-2)
+        	if (stanje ==0){
+        		signal=-1;break;
+        	}else if(stanje==2){
+        		signal=-10;break;
+        	}else if(stanje ==-2){
         		break;
-        	levodesno-=2;
-        	break;
+        	}
 
         case 'd'://right
         case 'D':
-        	if(levodesno==2)
+        	if (stanje ==0){
+        		signal=1;break;
+        	}else if(stanje==-2){
+        		signal=10;break;
+        	}else if(stanje ==2){
         		break;
-        	levodesno+=2;
-        	break;
+        	}
 
     }
 }

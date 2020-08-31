@@ -7,7 +7,8 @@
 #include <math.h>
 
 extern int animation_ongoing;
-extern int levodesno;
+extern int signal;
+extern int stanje;
 
 void on_keyboard(unsigned char key, int x, int y);
 

@@ -7,8 +7,10 @@
 #include "constante.h"
 #include "object.h"
 
+unsigned int kamen;
+unsigned int pozadina;
 
- void on_display(void)
+void on_display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glColor3f(0,0,1);
@@ -49,6 +51,13 @@
             0, 1, 0
         );
 
+    //mapa
+        glBindTexture(GL_TEXTURE_2D,pozadina);
+        glDisable(GL_LIGHTING);
+        mapa();
+        glEnable(GL_LIGHTING);
+        glBindTexture(GL_TEXTURE_2D,0);
+
     //svemirski brod 
         spaceShip(-2,levodesno);
 
@@ -56,10 +65,19 @@
         bure(bureX,0,bureZ);
 
     //polje asteroida
+ 		glEnable(GL_TEXTURE_GEN_S);
+		glEnable(GL_TEXTURE_GEN_T);
+        glBindTexture(GL_TEXTURE_2D,kamen);
+
         int i;
         for(i=0;i< BR_ASTEROIDA;i++){
         	asteroid(asteroidX[i],0,asteroidZ[i]);
         }
+        
+        glBindTexture(GL_TEXTURE_2D,0);
+       	glDisable(GL_TEXTURE_GEN_S);
+		glDisable(GL_TEXTURE_GEN_T);
+
 
         if(abs(kraj_parametar) == 1){
         	kraj();

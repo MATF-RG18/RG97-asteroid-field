@@ -241,3 +241,21 @@ int i;
     kraj_parametar=(-1);
 	
 }
+
+void mapa(){
+
+	glPushMatrix();
+	
+	glColor3f(0.5,0.5, 0.5);
+    glBegin(GL_TRIANGLE_FAN);
+    	glTexCoord2f(0,0);
+        glVertex3f(-15, -3, -15);
+        glTexCoord2f(0,1);
+        glVertex3f(-15, -3, 15);
+        glTexCoord2f(1,1);
+        glVertex3f(15, -3, 15);
+        glTexCoord2f(1,0);
+        glVertex3f(15, -3, -15);
+    glEnd();
+    glPopMatrix();
+}

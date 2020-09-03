@@ -17,6 +17,8 @@ void on_timer(int id){
     if(id != TIMER_ID)
         return;
 
+    skor=(int)animation_parameter;
+
     if(animation_parameter>nivo){
         brzina+=0.05;
         nivo+=500;
@@ -60,7 +62,7 @@ void on_timer(int id){
     		stanje=0;
     		signal =0;
     	}else{
-    		levodesno+=brzina*2;
+    		levodesno+=brzina*1.5;
 
     	}
     }else if(signal ==-10){
@@ -69,7 +71,7 @@ void on_timer(int id){
     		stanje=0;
     		signal =0;
     	}else{
-    		levodesno-=brzina*2;
+    		levodesno-=brzina*1.5;
     	}
     }else if(signal==1){
     	if(levodesno>2){
@@ -77,7 +79,7 @@ void on_timer(int id){
     		stanje=2;
     		signal =0;
     	}else{
-    		levodesno+=brzina*2;
+    		levodesno+=brzina*1.5;
     	}
     }else if(signal==-1){
 
@@ -86,7 +88,7 @@ void on_timer(int id){
     		stanje=-2;
     		signal =0;
     	}else{
-    		levodesno-=brzina*2;
+    		levodesno-=brzina*1.5;
     	}
     }
     

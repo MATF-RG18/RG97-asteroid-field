@@ -48,6 +48,5 @@ void on_keyboard(unsigned char key, int x, int y)
         	}else if(stanje ==2){
         		break;
         	}
-
     }
 }

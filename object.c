@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <math.h>
+#include <string.h>
 
 #include"object.h"
 #include"constante.h"
@@ -223,21 +224,60 @@ void kraj (){
 int i;
 	for (i = 0; sqrt(i) < 10000; i++);
 
-    GLfloat Material_kraj[] = { 0.7, 0, 0, 1.0 };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_kraj);
-	glPushMatrix();
+    glPushMatrix();
 	
-	
-    glColor3f(1, 0, 0);
+	glColor3f(1,1,1);
     glBegin(GL_TRIANGLE_FAN);
-        glVertex3f(-5, 7, -5);
-        glVertex3f(-5, 7, 5);
-        glVertex3f(5, 7, 5);
-        glVertex3f(5, 7, -5);
+    	glTexCoord2f(0,0);
+        glVertex3f(-6, 4, -6);
+        glTexCoord2f(0,1);
+        glVertex3f(-6, 4, 6);
+        glTexCoord2f(1,1);
+        glVertex3f(6, 4, 6);
+        glTexCoord2f(1,0);
+        glVertex3f(6, 4, -6);
     glEnd();
     glPopMatrix();
 
 
     kraj_parametar=(-1);
 	
+}
+
+//----------pozadina----------
+void mapa(){
+
+	glPushMatrix();
+	
+	glColor3f(0.5,0.5, 0.5);
+    glBegin(GL_TRIANGLE_FAN);
+    	glTexCoord2f(0,0);
+        glVertex3f(-15, -3, -15);
+        glTexCoord2f(0,1);
+        glVertex3f(-15, -3, 15);
+        glTexCoord2f(1,1);
+        glVertex3f(15, -3, 15);
+        glTexCoord2f(1,0);
+        glVertex3f(15, -3, -15);
+    glEnd();
+    glPopMatrix();
+}
+
+//-----skor ispisan na ekranu----
+void poeni(){
+	glColor3f(1,1,1);
+
+	char string[16] ="skor: ";
+
+	char sk[10];
+	sprintf(sk, "%d", skor);
+
+	strcat(string,sk);
+
+
+	glRasterPos2f(0,0);
+	int i;
+  	for (i=0;i<strlen(string);i++) {
+    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]); 
+  }
 }

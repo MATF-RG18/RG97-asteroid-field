@@ -29,10 +29,12 @@ float bureZ=2;
 int animation_ongoing = 0;
 float animation_parameter=0;
 
+
 //promenljive za teksture
 extern unsigned int kamen;
 extern unsigned int pozadina;
 extern unsigned int bum;
+
 
 //polozaj svemirskog broda
 float levodesno =0;
@@ -62,6 +64,7 @@ int main(int argc, char** argv)
 	kamen = tekstura("asteroid.bmp");
 	pozadina = tekstura("Pozadina.bmp");
   	bum = tekstura("bum.bmp");
+
 
 	printf("G -> GO\n"\
 			"P -> PAUSE\n"\
@@ -102,6 +105,7 @@ unsigned int tekstura(const char * putanja){
   fread(&djubre, 2, 1, file);
   fread(&djubre, 2, 1, file);
   fread(&djubre, 4, 1, file);
+
 
   fread(&djubre, 4, 1, file);
   fread(&sirina, 4, 1, file);

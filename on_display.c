@@ -9,7 +9,9 @@
 
 unsigned int kamen;
 unsigned int pozadina;
+
 unsigned int bum;
+
 
 void on_display(void)
 {

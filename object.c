@@ -244,7 +244,9 @@ int i;
 	
 }
 
+
 //----------pozadina----------
+
 void mapa(){
 
 	glPushMatrix();
@@ -261,6 +263,7 @@ void mapa(){
         glVertex3f(15, -3, -15);
     glEnd();
     glPopMatrix();
+
 }
 
 //-----skor ispisan na ekranu----
@@ -280,4 +283,5 @@ void poeni(){
   	for (i=0;i<strlen(string);i++) {
     glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]); 
   }
+
 }
